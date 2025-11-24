@@ -14,6 +14,7 @@ public class Client {
 //        Thread t = new Thread(task);
 //        task.run();
 //        t.start(); // Is calling runnable.run
+        //print
 
 //        PrintNumber pntask = new PrintNumber(8);
 //        Thread t1 = new Thread(task);
