@@ -2,21 +2,22 @@ package ProducerConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Store {
     private int maxSize; //Number of shelves present
-    private List<Object> items; //Actual shelves
+    private ConcurrentLinkedDeque<Object> items; //Actual shelves
 
     Store(int maxSize){
         this.maxSize = maxSize;
-        this.items = new ArrayList<>();
+        this.items = new ConcurrentLinkedDeque<>();
     }
 
     public int getMaxSize() {
         return maxSize;
     }
 
-    public List<Object> getItems() {
+    public ConcurrentLinkedDeque<Object> getItems() {
         return items;
     }
 
@@ -28,7 +29,7 @@ public class Store {
 
     public void removeItem() {
         System.out.println("Consumer consuming, current size " + this.items.size());
-        this.items.remove(this.items.size() - 1);
+        this.items.removeLast(); //HW: Swap and compare - Atomic,Volatile
 //        System.out.println("Consumer item, current size " + this.items.size());
     }
 }
