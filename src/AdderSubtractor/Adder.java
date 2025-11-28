@@ -17,6 +17,7 @@ public class Adder implements Callable<Void> {
         for(int i=0;i<100;i++){
             lock.lock();
             val.x += i;
+            // save the value on DB
             System.out.println("Value is incremented to " + val.x);
             lock.unlock();
         }

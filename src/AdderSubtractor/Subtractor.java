@@ -17,7 +17,7 @@ public class Subtractor implements Callable<Void> {
     public Void call() throws Exception {
         for(int i=0;i<100;i++){
             lock.lock();
-            val.x -= i;
+//            val.x -= i;
             System.out.println("Value is decremented to " + val.x);
             lock.unlock();
 
