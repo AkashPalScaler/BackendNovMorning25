@@ -1,7 +1,8 @@
 package Generics;
 
-import java.util.ArrayList;
-import java.util.List;
+import Inheritance.Student;
+
+import java.util.*;
 
 public class Client {
     public static void main(String[] args) {
@@ -97,3 +98,7 @@ public class Client {
 }
 // Break till 8:36 AM
 // Animal a = new Dog();  a.bark() - X
+
+
+
+
