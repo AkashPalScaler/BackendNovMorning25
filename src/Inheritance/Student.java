@@ -8,6 +8,7 @@ public class Student extends User{
 //        super("Akash"); // Refers to parent constructor
 
         System.out.println("Student constructor");
+//        super();
     }
 }
 // A -> B -> C -> D | Experiment and Play around
