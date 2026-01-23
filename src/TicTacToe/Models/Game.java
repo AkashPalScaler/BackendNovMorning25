@@ -1,7 +1,7 @@
 package TicTacToe.Models;
 
 import TicTacToe.Factories.WinnerStrategyFactory;
-import TicTacToe.Strategies.*;
+import TicTacToe.Strategies.WinnerStrategies.WinnerStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +85,72 @@ public class Game {
 
     public static Builder getBuilder(){
         return new Builder();
+    }
+
+    public void display(){
+        board.display();
+    }
+
+    public void makeMove(){
+        // Getting the player who makes the next move
+        Player currPlayer = players.get(nextPlayerIndex);
+        // Get a move from player - Call player.makeMove() - Check validity of the move
+        Move move = currPlayer.makeMove(this.board);
+        // Update the next player index
+        nextPlayerIndex++;
+        nextPlayerIndex %= players.size();
+        // Update the board
+        Cell cell = move.getCell(); // Get the cell from move for the values
+
+        // Update the cell of the board with values from move cell, never replace the cell on the board
+        board.getGrid().get(cell.getRow()).get(cell.getCol()).setSymbol(currPlayer.getSymbol());
+        board.getGrid().get(cell.getRow()).get(cell.getCol()).setCellState(CellState.OCCUPIED);
+
+        // Update the moveHistory
+        moveHistory.add(move);
+        // Check winner
+        if(this.checkWinner(move)){
+            setWinner(currPlayer);
+            setState(GameState.ENDED_WITH_WIN);
+        }
+        // Check draw condition
+        else if(this.moveHistory.size() == board.getSize()* board.getSize()){
+            setState(GameState.DRAW);
+        }
+    }
+
+    public void undo(){
+        // Get last move and remove from move history
+        Move lastMove = moveHistory.getLast();
+        // Update the board
+        Cell cell = lastMove.getCell();
+        board.getGrid().get(cell.getRow()).get(cell.getCol()).setSymbol(null);
+        board.getGrid().get(cell.getRow()).get(cell.getCol()).setCellState(CellState.EMPTY);
+        // Rollback the player
+        // (a-b)%m -> (a % m - b%m + m)%m
+        nextPlayerIndex = nextPlayerIndex - 1 + board.getSize();
+        nextPlayerIndex %= players.size();
+        // Reset the winner and reset the gameState
+        setWinner(null);
+        setState(GameState.IN_PROGRESS);
+        // undo the check winner count map
+        this.checkWinnerUndo(lastMove);
+
+    }
+
+    private boolean checkWinner(Move move){
+        for(WinnerStrategy winnerStrategy : winnerStrategies){
+            if(winnerStrategy.checkWinner(move, board)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void checkWinnerUndo(Move move){
+        for(WinnerStrategy winnerStrategy : winnerStrategies){
+            winnerStrategy.undoCountMap(move);
+        }
     }
 
     public static class Builder{

@@ -1,7 +1,7 @@
 package TicTacToe.Factories;
 
 import TicTacToe.Models.WinnerStrategyType;
-import TicTacToe.Strategies.*;
+import TicTacToe.Strategies.WinnerStrategies.*;
 
 public class WinnerStrategyFactory {
     public static WinnerStrategy getStrategy(WinnerStrategyType type){
