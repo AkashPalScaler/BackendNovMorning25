@@ -128,7 +128,7 @@ public class Game {
         board.getGrid().get(cell.getRow()).get(cell.getCol()).setCellState(CellState.EMPTY);
         // Rollback the player
         // (a-b)%m -> (a % m - b%m + m)%m
-        nextPlayerIndex = nextPlayerIndex - 1 + board.getSize();
+        nextPlayerIndex = nextPlayerIndex - 1 + players.size();
         nextPlayerIndex %= players.size();
         // Reset the winner and reset the gameState
         setWinner(null);
